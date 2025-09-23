@@ -126,7 +126,10 @@ dns:
     - tls://dot.pub:853
     - tls://dns.alidns.com:853
   direct-nameserver:
-    - system
+    - 223.5.5.5
+    - 119.29.29.29
+    - "2402:4e00::"
+    - "2400:3200::1"
   direct-nameserver-follow-policy: false
   fallback-filter:
     geoip: true
