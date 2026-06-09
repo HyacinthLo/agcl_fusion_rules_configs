@@ -130,10 +130,10 @@ dns:
       - gfw
     ipcidr:
       - 240.0.0.0/4
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
+    # domain:
+    #   - '+.google.com'
+    #   - '+.facebook.com'
+    #   - '+.youtube.com'
 tun: # TUN模式开关
   enable: true
   stack: gvisor
@@ -184,9 +184,10 @@ tun: # TUN模式开关
   #- 'MATCH,DIRECT'
 rule-providers:
   cn:
-    type: http
     behavior: domain
+    interval: 86400
+    path: ./provider/rule-set/geosite-cn.mrs
+    type: http
     format: mrs
-    path: ./rules/cn.mrs
-    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/cn.mrs"
-    interval: 1440
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+    path-in-bundle: "geo/geosite/cn.mrs"
