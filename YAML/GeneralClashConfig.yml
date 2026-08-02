@@ -31,8 +31,6 @@ mode: Rule
 # 5 个级别：silent / error / warning / info / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
 log-level: info
 
-ipv6: true
-
 # Clash 的 RESTful API
 external-controller: '127.0.0.1:9090'
 
@@ -47,8 +45,20 @@ external-controller: '127.0.0.1:9090'
 # RESTful API 的口令 (可选)
 # secret: ""
 
+ipv6: true
+
+sniffer:
+  sniff:
+    TLS: {ports: [443], override-destination: true}
+    HTTP: {ports: [443], override-destination: true}
+  enable: true
+  parse-pure-ip: false
+  force-dns-mapping: true
+  override-destination: true
+
 # 实验性功能
 experimental:
+  sniff-tls-sni: true
   ignore-resolve-fail: true # 忽略 DNS 解析失败，默认值为 true
   # interface-name: en0 # outbound interface name
 
@@ -68,8 +78,7 @@ dns:
   cache-algorithm: arc
   prefer-h3: true
   use-hosts: true
-  use-system-hosts: true
-  respect-rules: false
+  use-system-hosts: false
   listen: 0.0.0.0:1053
   ipv6: true
   default-nameserver:
@@ -77,34 +86,19 @@ dns:
     - 119.29.29.29
     - "2402:4e00::"
     - "2400:3200::1"
-  enhanced-mode: fake-ip
-  fake-ip-range: 198.18.0.1/16
-  fake-ip-filter-mode: blacklist
-  fake-ip-filter:
-    - "*.n.n.srv.nintendo.net"
-    - "+.stun.playstation.net"
-    - "xbox.*.*.microsoft.com"
-    - "*.*.xboxlive.com"
-    - "*.msftncsi.com"
-    - "*.msftconnecttest.com"
-    - "WORKGROUP"
-    - "*.lan"
-    - "detectportal.firefox.com"
-    - "resolver1.opendns.com"
-    - "network-test.debian.org"
-    - "localhost.ptlogin2.qq.com"
-  nameserver-policy:
-    '+.arpa': '10.0.0.1'
-    'rule-set:cn':
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
-    - tls://dot.pub:853
-    - tls://dns.alidns.com:853
+    - tls://119.29.29.29
+    - tls://223.5.5.5
   nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - 223.5.5.5
+    - 119.29.29.29
+    - "2402:4e00::"
+    - "2400:3200::1"
+    - tls://119.29.29.29
+    - tls://223.5.5.5
     - tls://dot.pub:853
     - tls://dns.alidns.com:853
+    - https://dns.pub/dns-query
+    - https://dns.alidns.com/dns-query
   fallback:
     - https://dns.google/dns-query
     - https://cloudflare-dns.com/dns-query
@@ -117,16 +111,23 @@ dns:
     - tls://8.8.4.4
     - tls://1.1.1.1
   proxy-server-nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
-    - tls://dot.pub:853
-    - tls://dns.alidns.com:853
+    - udp://0.0.0.0:1053
   direct-nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - "2402:4e00::"
     - "2400:3200::1"
   direct-nameserver-follow-policy: false
+  
+  nameserver-policy:
+    '+.arpa': '10.0.0.1'
+    "geosite:cn,private":
+    - tls://119.29.29.29
+    - tls://223.5.5.5
+    - tls://dot.pub:853
+    - tls://dns.alidns.com:853
+    - https://dns.pub/dns-query
+    - https://dns.alidns.com/dns-query
   fallback-filter:
     geoip: true
     geoip-code: CN
@@ -138,6 +139,88 @@ dns:
     #   - '+.google.com'
     #   - '+.facebook.com'
     #   - '+.youtube.com'
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.0/15
+  fake-ip-filter:
+    - "*.lan"
+    - "*.localdomain"
+    - "*.example"
+    - "*.invalid"
+    - "*.localhost"
+    - "*.test"
+    - "*.local"
+    - "*.home.arpa"
+    - time.*.com
+    - time.*.gov
+    - time.*.edu.cn
+    - time.*.apple.com
+    - time1.*.com
+    - time2.*.com
+    - time3.*.com
+    - time4.*.com
+    - time5.*.com
+    - time6.*.com
+    - time7.*.com
+    - ntp.*.com
+    - ntp1.*.com
+    - ntp2.*.com
+    - ntp3.*.com
+    - ntp4.*.com
+    - ntp5.*.com
+    - ntp6.*.com
+    - ntp7.*.com
+    - "*.time.edu.cn"
+    - "*.ntp.org.cn"
+    - +.pool.ntp.org
+    - time1.cloud.tencent.com
+    - stun.*.*
+    - stun.*.*.*
+    - swscan.apple.com
+    - mesu.apple.com
+    - music.163.com
+    - "*.music.163.com"
+    - "*.126.net"
+    - musicapi.taihe.com
+    - music.taihe.com
+    - songsearch.kugou.com
+    - trackercdn.kugou.com
+    - "*.kuwo.cn"
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - y.qq.com
+    - "*.y.qq.com"
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - localhost.ptlogin2.qq.com
+    - "*.msftconnecttest.com"
+    - "*.msftncsi.com"
+    - "*.xiami.com"
+    - "*.music.migu.cn"
+    - music.migu.cn
+    - +.wotgame.cn
+    - +.wggames.cn
+    - +.wowsgame.cn
+    - +.wargaming.net
+    - "*.*.*.srv.nintendo.net"
+    - "*.*.stun.playstation.net"
+    - xbox.*.*.microsoft.com
+    - "*.*.xboxlive.com"
+    - "*.ipv6.microsoft.com"
+    - teredo.*.*.*
+    - teredo.*.*
+    - speedtest.cros.wr.pvp.net
+    - +.jjvip8.com
+    - www.douyu.com
+    - activityapi.huya.com
+    - activityapi.huya.com.w.cdngslb.com
+    - www.bilibili.com
+    - api.bilibili.com
+    - a.w.bilicdn1.com
+    - +.apt-agent.net
 tun: # TUN模式开关
   enable: true
   stack: gvisor
