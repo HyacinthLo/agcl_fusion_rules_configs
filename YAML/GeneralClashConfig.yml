@@ -78,8 +78,8 @@ dns:
   cache-algorithm: arc
   prefer-h3: true
   use-hosts: true
-  use-system-hosts: false
-  listen: 0.0.0.0:1053
+  use-system-hosts: true
+  listen: 0.0.0.0:10053
   ipv6: true
   default-nameserver:
     - 223.5.5.5
@@ -111,7 +111,7 @@ dns:
     - tls://8.8.4.4
     - tls://1.1.1.1
   proxy-server-nameserver:
-    - udp://0.0.0.0:1053
+    - udp://0.0.0.0:10053
   direct-nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -223,7 +223,7 @@ dns:
     - +.apt-agent.net
 tun: # TUN模式开关
   enable: true
-  stack: gvisor
+  stack: mixed
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
