@@ -2,3 +2,5 @@ payload:
   - DOMAIN-SUFFIX,2dland.cn
   - IP-CIDR,107.189.1.237/8
   - IP-CIDR6,2605:6400:30:f416::/64
+  - DOMAIN-SUFFIX,api-huacloud.com
+  - DOMAIN-SUFFIX,api.xmancdn.net
