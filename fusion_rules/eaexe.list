@@ -1,1 +1,2 @@
-PROCESS-NAME,EALauncher.exe
+payload:
+  - PROCESS-NAME,EALauncher.exe
