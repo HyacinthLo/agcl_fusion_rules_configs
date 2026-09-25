@@ -269,12 +269,12 @@ tun: # TUN模式开关
       #- Shadowsocks
 #Rule:
   #- 'MATCH,DIRECT'
-rule-providers:
-  cn:
-    behavior: domain
-    interval: 86400
-    path: ./provider/rule-set/geosite-cn.mrs
-    type: http
-    format: mrs
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
-    path-in-bundle: "geo/geosite/cn.mrs"
+# rule-providers:
+#   cn:
+#     behavior: domain
+#     interval: 86400
+#     path: ./provider/rule-set/geosite-cn.mrs
+#     type: http
+#     format: mrs
+#     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+#     path-in-bundle: "geo/geosite/cn.mrs"
