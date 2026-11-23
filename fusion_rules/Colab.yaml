@@ -1,0 +1,7 @@
+payload:
+  # 1. 实例调度与算力分配主接口（决定能不能分到卡、分到哪个区的卡）
+  - DOMAIN-SUFFIX,colab.research.google.com
+  - DOMAIN,colaboratory.googleapis.com
+
+  # 2. 容器直连隧道（分到卡之后，exec / repl / ssh / 传文件的 WebSocket 通道）
+  - DOMAIN-SUFFIX,colab.dev
