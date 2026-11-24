@@ -1,7 +1,16 @@
 payload:
-  # 1. 实例调度与算力分配主接口（决定能不能分到卡、分到哪个区的卡）
+  # 1. Colab 主站与 Tunnel 会话控制面（CLI Prod.domain）
   - DOMAIN-SUFFIX,colab.research.google.com
-  - DOMAIN,colaboratory.googleapis.com
+  - DOMAIN-SUFFIX,colab.google
 
-  # 2. 容器直连隧道（分到卡之后，exec / repl / ssh / 传文件的 WebSocket 通道）
+  # 2. Colab 专属后端 API 网关（CLI Prod.api 源码硬编码 + Public API + 网页端 RPC）
+  - DOMAIN,colab.pa.googleapis.com
+  - DOMAIN,colaboratory.googleapis.com
+  - DOMAIN,colab.clients6.google.com
+
+  # 3. Runtime 容器直连代理隧道（WebSocket / SSH / Kernel 执行通道）
   - DOMAIN-SUFFIX,colab.dev
+
+  # 4. Colab 专属内容托管与网页沙盒（精准匹配，不污染普通 googleusercontent）
+  - DOMAIN-SUFFIX,colab.googleusercontent.com
+  - DOMAIN-KEYWORD,-colab.googleusercontent.com
